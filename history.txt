@@ -1,3 +1,15 @@
 #V2
 hello
 bye
+a
+asdasd
+asd asd
+clear
+help
+asdasd
+asd
+asdasd
+clear
+exit
+calculate
+help

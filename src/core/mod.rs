@@ -1,13 +1,13 @@
 mod log;
+mod parser;
 
 use std::io;
 use log::Log;
+use parser::CommandType;
 
 use rustyline::{ error::ReadlineError, history::FileHistory, Editor, DefaultEditor };
 
-pub struct Shell {
-    shell: Editor<(), FileHistory>,
-}
+pub struct Shell(Editor<(), FileHistory>);
 
 impl Shell {
     pub fn new() -> io::Result<Self> {
@@ -17,35 +17,43 @@ impl Shell {
             Log::error_msg("failed to load history")?;
         }
 
-        return Ok(Shell { shell });
+        return Ok(Shell(shell));
     }
 
     pub fn run(&mut self) -> io::Result<()> {
         loop {
-            match self.shell.readline("$ ") {
+            match self.0.readline("$ ") {
                 Ok(cmd) => {
-                    self.shell.add_history_entry(cmd.as_str()).unwrap();
+                    self.0.add_history_entry(cmd.as_str()).unwrap();
+                    let cmd_res = parser::parse_cmd(cmd);
+                    if matches!(cmd_res, CommandType::Invalid) {
+                        Log::error_msg("invalid shell command.")?;
+                    } else if matches!(cmd_res, CommandType::Exit) {
+                        break;
+                    }
                 }
                 Err(ReadlineError::Interrupted) => {
-                    Log::info_msg("exiting shell..")?;
+                    Log::error_msg("interrupted.")?;
                     break;
                 }
                 Err(ReadlineError::Eof) => {
-                    Log::info_msg("End of file..")?;
+                    Log::error_msg("end of file.")?;
                     break;
                 }
                 Err(_) => {
-                    Log::error_msg("something went wrong..")?;
+                    Log::error_msg("something went wrong.")?;
                     break;
                 }
             }
         }
+
+        Log::info_msg("exiting shell..")?;
         return Ok(());
     }
 }
 
 impl Drop for Shell {
     fn drop(&mut self) {
-        self.shell.save_history("history.txt").unwrap();
+        self.0.save_history("history.txt").unwrap();
     }
 }
