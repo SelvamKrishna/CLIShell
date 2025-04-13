@@ -1,0 +1,8 @@
+[package]
+name = "shell"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+crossterm = "0.29.0" # For terminal manipulation
+rustyline = "15.0.0"
