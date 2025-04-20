@@ -1,1 +1,65 @@
 #V2
+echo 1
+echo 11
+clear
+exit
+echo 1 1 1 1
+exit
+echo
+echo hello
+echo 
+echo hello
+clear
+exit
+echo
+echo hello
+echo hello world
+exit
+echo
+echo 1
+echo 12
+exit
+asdasd
+help
+clear
+asdasd
+clear
+exit
+clear
+exit
+clear
+exit
+clear
+exit
+clear
+cargo run
+exit
+clear
+exit
+clear
+exit
+clear
+exit
+clear
+asd
+clear
+exit
+ls
+exit
+ls
+ls c:\\dev
+c:\\dev\\RaylibComponents
+ls c:\\dev\\RaylibComponents
+clear
+exit
+clear
+ls
+help
+exit
+help
+exit
+asd
+help
+exit
+help
+exit

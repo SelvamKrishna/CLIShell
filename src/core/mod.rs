@@ -28,7 +28,9 @@ impl Shell {
                     self.0.add_history_entry(cmd.as_str()).unwrap();
                     let cmd_res = parser::parse_cmd(cmd);
                     if matches!(cmd_res, CommandState::Invalid) {
-                        Log::error_msg("invalid shell command.")?;
+                        Log::error_msg(
+                            "invalid shell command - type 'help' for a list of commands"
+                        )?;
                     } else if matches!(cmd_res, CommandState::Exit) {
                         break;
                     }

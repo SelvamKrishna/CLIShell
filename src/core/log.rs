@@ -5,6 +5,11 @@ use crossterm::{ execute, style::{ Color, Print, ResetColor, SetForegroundColor 
 pub struct Log;
 
 impl Log {
+    pub fn line() -> io::Result<()> {
+        execute!(io::stdout(), Print("\n"))?;
+        return Ok(());
+    }
+
     pub fn error_msg(msg: &str) -> io::Result<()> {
         execute!(
             io::stdout(),
@@ -37,13 +42,34 @@ impl Log {
         execute!(
             io::stdout(),
             SetForegroundColor(Color::Yellow),
-            Print(format!("{}:\t\t\t", cmd)),
+            Print(format!("{}\t\t\t", cmd)),
             SetForegroundColor(Color::White),
             Print(msg),
             Print("\n"),
             ResetColor
         )?;
 
+        return Ok(());
+    }
+
+    pub fn help_with_args_msg(cmd: &str, args: &str, msg: &str) -> io::Result<()> {
+        execute!(
+            io::stdout(),
+            SetForegroundColor(Color::Yellow),
+            Print(format!("{}", cmd)),
+            SetForegroundColor(Color::Cyan),
+            Print(format!(" {}\t\t\t", args)),
+            SetForegroundColor(Color::White),
+            Print(msg),
+            Print("\n"),
+            ResetColor
+        )?;
+
+        return Ok(());
+    }
+
+    pub fn custom_msg(msg: &str, color: Color) -> io::Result<()> {
+        execute!(io::stdout(), SetForegroundColor(color), Print(msg), Print("\n"), ResetColor)?;
         return Ok(());
     }
 }
