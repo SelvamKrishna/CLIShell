@@ -1,9 +1,10 @@
 mod log;
 mod parser;
+mod executer;
 
 use std::io;
 use log::Log;
-use parser::CommandType;
+use parser::CommandState;
 
 use rustyline::{ error::ReadlineError, history::FileHistory, Editor, DefaultEditor };
 
@@ -26,9 +27,9 @@ impl Shell {
                 Ok(cmd) => {
                     self.0.add_history_entry(cmd.as_str()).unwrap();
                     let cmd_res = parser::parse_cmd(cmd);
-                    if matches!(cmd_res, CommandType::Invalid) {
+                    if matches!(cmd_res, CommandState::Invalid) {
                         Log::error_msg("invalid shell command.")?;
-                    } else if matches!(cmd_res, CommandType::Exit) {
+                    } else if matches!(cmd_res, CommandState::Exit) {
                         break;
                     }
                 }

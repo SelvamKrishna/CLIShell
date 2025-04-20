@@ -1,31 +1,35 @@
-pub enum CommandType {
+use super::executer::Execute;
+
+pub enum CommandState {
     Null,
     Handled,
     Invalid,
     Exit,
 }
 
-pub fn parse_cmd(cmd: String) -> CommandType {
+pub fn parse_cmd(cmd: String) -> CommandState {
     let tokens: Vec<&str> = cmd
         .split_ascii_whitespace()
         .map(|c| c.trim())
         .collect();
 
     if tokens.len() == 0 {
-        return CommandType::Null;
+        return CommandState::Null;
     }
 
     if tokens.len() == 1 {
         match tokens[0] {
-            "help" => todo!(),
+            "help" => {
+                return Execute::help_cmd();
+            }
             "exit" => {
-                return CommandType::Exit;
+                return CommandState::Exit;
             }
             _ => {
-                return CommandType::Invalid;
+                return CommandState::Invalid;
             }
         }
     }
 
-    return CommandType::Handled;
+    return CommandState::Handled;
 }

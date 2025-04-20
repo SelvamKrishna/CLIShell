@@ -32,4 +32,18 @@ impl Log {
 
         return Ok(());
     }
+
+    pub fn help_msg(cmd: &str, msg: &str) -> io::Result<()> {
+        execute!(
+            io::stdout(),
+            SetForegroundColor(Color::Yellow),
+            Print(format!("{}:\t\t\t", cmd)),
+            SetForegroundColor(Color::White),
+            Print(msg),
+            Print("\n"),
+            ResetColor
+        )?;
+
+        return Ok(());
+    }
 }
