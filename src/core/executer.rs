@@ -26,25 +26,6 @@ impl Execute {
         return CommandState::Handled;
     }
 
-    pub fn ls_cmd() -> CommandState {
-        return Self::ls_path_cmd(".".to_string());
-    }
-
-    #[allow(unused)]
-    pub fn cd_cmd(path: String) -> CommandState {
-        return CommandState::Handled;
-    }
-
-    #[allow(unused)]
-    pub fn echo_cmd(msg: String) -> CommandState {
-        return CommandState::Handled;
-    }
-
-    #[allow(unused)]
-    pub fn cat_cmd(path: String) -> CommandState {
-        return CommandState::Handled;
-    }
-
     pub fn ls_path_cmd(path: String) -> CommandState {
         let entries = match fs::read_dir(path) {
             Ok(e) => e,
@@ -67,6 +48,21 @@ impl Execute {
             }
         }
 
+        return CommandState::Handled;
+    }
+
+    #[allow(unused)]
+    pub fn cd_cmd(path: String) -> CommandState {
+        return CommandState::Handled;
+    }
+
+    #[allow(unused)]
+    pub fn cat_cmd(path: String) -> CommandState {
+        return CommandState::Handled;
+    }
+
+    #[allow(unused)]
+    pub fn echo_cmd(msg: String) -> CommandState {
         return CommandState::Handled;
     }
 }

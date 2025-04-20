@@ -8,54 +8,29 @@ pub enum CommandState {
 }
 
 pub fn parse_cmd(cmd: String) -> CommandState {
-    let tokens: Vec<&str> = cmd
-        .split_ascii_whitespace()
-        .map(|c| c.trim())
-        .collect();
+    let tokens: Vec<&str> = cmd.split_ascii_whitespace().map(str::trim).collect();
 
-    if tokens.len() == 0 {
+    if tokens.is_empty() {
         return CommandState::Null;
     }
 
-    if tokens.len() == 1 {
-        match tokens[0] {
-            "help" => {
-                return Execute::help_cmd();
-            }
-            "exit" => {
-                return CommandState::Exit;
-            }
-            "clear" => {
-                return Execute::clear_cmd();
-            }
-            "ls" => {
-                return Execute::ls_cmd();
-            }
-            _ => {
-                return CommandState::Invalid;
-            }
-        }
-    }
+    return match tokens.as_slice() {
+        ["help"] => Execute::help_cmd(),
 
-    if tokens.len() == 2 {
-        match tokens[0] {
-            "cd" => {
-                return Execute::cd_cmd(tokens[1].to_string());
-            }
-            "echo" => {
-                return Execute::echo_cmd(tokens[1..].join(" "));
-            }
-            "cat" => {
-                return Execute::cat_cmd(tokens[1].to_string());
-            }
-            "ls" => {
-                return Execute::ls_path_cmd(tokens[1].to_string());
-            }
-            _ => {
-                return CommandState::Invalid;
-            }
-        }
-    }
+        ["exit"] => CommandState::Exit,
+        ["quit"] => CommandState::Exit,
 
-    return CommandState::Handled;
+        ["clear"] => Execute::clear_cmd(),
+        ["cls"] => Execute::clear_cmd(),
+
+        ["ls"] => Execute::ls_path_cmd(".".to_string()),
+        ["dir"] => Execute::ls_path_cmd(".".to_string()),
+        ["ls", path] => Execute::ls_path_cmd(path.to_string()),
+        ["dir", path] => Execute::ls_path_cmd(path.to_string()),
+
+        ["cd", path] => Execute::cd_cmd(path.to_string()),
+        ["cat", path] => Execute::cat_cmd(path.to_string()),
+        ["echo", msg] => Execute::echo_cmd(msg.to_string()),
+        _ => CommandState::Invalid,
+    };
 }

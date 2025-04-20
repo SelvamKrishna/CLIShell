@@ -63,3 +63,8 @@ help
 exit
 help
 exit
+ls
+dir
+dir c:\\dev
+clear
+exit
