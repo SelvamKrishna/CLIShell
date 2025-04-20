@@ -68,3 +68,28 @@ dir
 dir c:\\dev
 clear
 exit
+cd 
+cd
+cat
+cd a
+cd 
+help
+clear
+exit
+hellp
+help
+ls ../dsa
+ls ..
+ls
+clear
+exit
+help
+as
+clear
+ls
+ls ..
+ls c:\\dev
+ls c
+ls c:/
+clear
+exit

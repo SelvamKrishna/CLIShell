@@ -1,7 +1,6 @@
 use super::executer::Execute;
 
 pub enum CommandState {
-    Null,
     Handled,
     Invalid,
     Exit,
@@ -11,10 +10,10 @@ pub fn parse_cmd(cmd: String) -> CommandState {
     let tokens: Vec<&str> = cmd.split_ascii_whitespace().map(str::trim).collect();
 
     if tokens.is_empty() {
-        return CommandState::Null;
+        return CommandState::Handled;
     }
 
-    return match tokens.as_slice() {
+    match tokens.as_slice() {
         ["help"] => Execute::help_cmd(),
 
         ["exit"] => CommandState::Exit,
@@ -32,5 +31,5 @@ pub fn parse_cmd(cmd: String) -> CommandState {
         ["cat", path] => Execute::cat_cmd(path.to_string()),
         ["echo", msg] => Execute::echo_cmd(msg.to_string()),
         _ => CommandState::Invalid,
-    };
+    }
 }

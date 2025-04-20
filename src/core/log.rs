@@ -7,7 +7,7 @@ pub struct Log;
 impl Log {
     pub fn line() -> io::Result<()> {
         execute!(io::stdout(), Print("\n"))?;
-        return Ok(());
+        Ok(())
     }
 
     pub fn error_msg(msg: &str) -> io::Result<()> {
@@ -21,7 +21,7 @@ impl Log {
             ResetColor
         )?;
 
-        return Ok(());
+        Ok(())
     }
 
     pub fn info_msg(msg: &str) -> io::Result<()> {
@@ -35,7 +35,7 @@ impl Log {
             ResetColor
         )?;
 
-        return Ok(());
+        Ok(())
     }
 
     pub fn help_msg(cmd: &str, msg: &str) -> io::Result<()> {
@@ -49,14 +49,14 @@ impl Log {
             ResetColor
         )?;
 
-        return Ok(());
+        Ok(())
     }
 
     pub fn help_with_args_msg(cmd: &str, args: &str, msg: &str) -> io::Result<()> {
         execute!(
             io::stdout(),
             SetForegroundColor(Color::Yellow),
-            Print(format!("{}", cmd)),
+            Print(cmd.to_string()),
             SetForegroundColor(Color::Cyan),
             Print(format!(" {}\t\t\t", args)),
             SetForegroundColor(Color::White),
@@ -65,11 +65,11 @@ impl Log {
             ResetColor
         )?;
 
-        return Ok(());
+        Ok(())
     }
 
     pub fn custom_msg(msg: &str, color: Color) -> io::Result<()> {
         execute!(io::stdout(), SetForegroundColor(color), Print(msg), Print("\n"), ResetColor)?;
-        return Ok(());
+        Ok(())
     }
 }

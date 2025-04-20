@@ -18,7 +18,7 @@ impl Shell {
             Log::error_msg("failed to load history")?;
         }
 
-        return Ok(Shell(shell));
+        Ok(Shell(shell))
     }
 
     pub fn run(&mut self) -> io::Result<()> {
@@ -26,13 +26,16 @@ impl Shell {
             match self.0.readline("$ ") {
                 Ok(cmd) => {
                     self.0.add_history_entry(cmd.as_str()).unwrap();
-                    let cmd_res = parser::parse_cmd(cmd);
-                    if matches!(cmd_res, CommandState::Invalid) {
-                        Log::error_msg(
-                            "invalid shell command - type 'help' for a list of commands"
-                        )?;
-                    } else if matches!(cmd_res, CommandState::Exit) {
-                        break;
+                    match parser::parse_cmd(cmd) {
+                        CommandState::Invalid => {
+                            Log::error_msg(
+                                "invalid command - type 'help' for list of possible commands"
+                            )?;
+                        }
+                        CommandState::Exit => {
+                            break;
+                        }
+                        _ => {}
                     }
                 }
                 Err(ReadlineError::Interrupted) => {
@@ -51,7 +54,7 @@ impl Shell {
         }
 
         Log::info_msg("exiting shell..")?;
-        return Ok(());
+        Ok(())
     }
 }
 
