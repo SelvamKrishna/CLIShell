@@ -1,43 +1,45 @@
+mod executer;
 mod log;
 mod parser;
-mod executer;
 
-use std::io;
 use log::Log;
 use parser::CommandState;
+use std::{env, io, path::PathBuf};
 
-use rustyline::{ error::ReadlineError, history::FileHistory, Editor, DefaultEditor };
+use rustyline::{DefaultEditor, Editor, error::ReadlineError, history::FileHistory};
 
-pub struct Shell(Editor<(), FileHistory>);
+pub struct Shell {
+    shell: Editor<(), FileHistory>,
+
+    dir: PathBuf,
+}
 
 impl Shell {
     pub fn new() -> io::Result<Self> {
-        let mut shell = DefaultEditor::new().unwrap();
+        let mut shell: Editor<(), FileHistory> = DefaultEditor::new().unwrap();
 
         if shell.load_history("history.txt").is_err() {
             Log::error_msg("failed to load history")?;
         }
 
-        Ok(Shell(shell))
+        let dir = match env::current_dir() {
+            Ok(dir) => dir,
+            Err(_) => {
+                Log::error_msg("failed to allocate current directory.")?;
+                return Err(io::Error::other("failed to get current directory"));
+            }
+        };
+
+        Ok(Shell { shell, dir })
     }
 
     pub fn run(&mut self) -> io::Result<()> {
         loop {
-            match self.0.readline("$ ") {
-                Ok(cmd) => {
-                    self.0.add_history_entry(cmd.as_str()).unwrap();
-                    match parser::parse_cmd(cmd) {
-                        CommandState::Invalid => {
-                            Log::error_msg(
-                                "invalid command - type 'help' for list of possible commands"
-                            )?;
-                        }
-                        CommandState::Exit => {
-                            break;
-                        }
-                        _ => {}
-                    }
-                }
+            let line = match self
+                .shell
+                .readline(&format!("$ {} > ", self.dir.to_str().unwrap()))
+            {
+                Ok(cmd) => cmd,
                 Err(ReadlineError::Interrupted) => {
                     Log::error_msg("interrupted.")?;
                     break;
@@ -50,6 +52,15 @@ impl Shell {
                     Log::error_msg("something went wrong.")?;
                     break;
                 }
+            };
+
+            self.shell.add_history_entry(line.as_str()).unwrap();
+            match parser::parse_cmd(line, &mut self.dir) {
+                CommandState::Invalid => {
+                    Log::error_msg("invalid command - type 'help' for list of possible commands")?;
+                }
+                CommandState::Exit => break,
+                _ => {}
             }
         }
 
@@ -60,6 +71,6 @@ impl Shell {
 
 impl Drop for Shell {
     fn drop(&mut self) {
-        self.0.save_history("history.txt").unwrap();
+        self.shell.save_history("history.txt").unwrap();
     }
 }

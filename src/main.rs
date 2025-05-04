@@ -9,8 +9,6 @@ fn main() {
                 eprintln!("Shell error: {}", e);
             }
         }
-        Err(e) => {
-            eprintln!("Failed to start shell: {}", e);
-        }
+        Err(e) => eprintln!("Failed to start shell: {}", e),
     }
 }

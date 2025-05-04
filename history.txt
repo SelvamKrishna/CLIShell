@@ -1,29 +1,4 @@
 #V2
-echo 1
-echo 11
-clear
-exit
-echo 1 1 1 1
-exit
-echo
-echo hello
-echo 
-echo hello
-clear
-exit
-echo
-echo hello
-echo hello world
-exit
-echo
-echo 1
-echo 12
-exit
-asdasd
-help
-clear
-asdasd
-clear
 exit
 clear
 exit
@@ -92,4 +67,35 @@ ls c:\\dev
 ls c
 ls c:/
 clear
+exit
+help
+ls
+ls ../
+clear
+exit
+help
+helplear
+clear
+exit
+hello
+help
+clear
+new
+help
+ls
+exit
+help
+exit
+help
+exit
+help
+clear
+exit
+help
+exit
+help
+exit
+help
+exit
+help
 exit

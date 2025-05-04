@@ -1,7 +1,12 @@
-use std::{ fs, io::stdout };
-use super::{ log::Log, parser::CommandState };
+use super::{log::Log, parser::CommandState};
+use std::{env, fs, io::stdout, path::PathBuf};
 
-use crossterm::{ cursor::MoveTo, execute, style::Color, terminal::{ Clear, ClearType } };
+use crossterm::{
+    cursor::MoveTo,
+    execute,
+    style::Color,
+    terminal::{Clear, ClearType},
+};
 
 pub struct Execute;
 
@@ -23,6 +28,7 @@ impl Execute {
         execute!(stdout(), Clear(ClearType::All), MoveTo(0, 0)).unwrap_or_else(|e| {
             Log::error_msg(&format!("Failed to clear screen: {}", e)).unwrap();
         });
+
         CommandState::Handled
     }
 
@@ -49,8 +55,19 @@ impl Execute {
         CommandState::Handled
     }
 
-    #[allow(unused)]
-    pub fn cd_cmd(path: String) -> CommandState {
+    pub fn cd_cmd(path: String, dir: &mut PathBuf) -> CommandState {
+        if let Err(e) = env::set_current_dir(&path) {
+            Log::error_msg(&format!("failed to change directory: {}", e)).unwrap();
+        }
+
+        match env::current_dir() {
+            Ok(new_dir) => *dir = new_dir,
+            Err(e) => {
+                Log::error_msg(&format!("failed to get new directory: {}", e)).unwrap();
+                return CommandState::Invalid;
+            }
+        };
+
         CommandState::Handled
     }
 
