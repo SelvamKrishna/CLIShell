@@ -10,7 +10,6 @@ use rustyline::{DefaultEditor, Editor, error::ReadlineError, history::FileHistor
 
 pub struct Shell {
     shell: Editor<(), FileHistory>,
-
     dir: PathBuf,
 }
 

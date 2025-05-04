@@ -1,66 +1,4 @@
 #V2
-exit
-clear
-exit
-clear
-exit
-clear
-exit
-clear
-cargo run
-exit
-clear
-exit
-clear
-exit
-clear
-exit
-clear
-asd
-clear
-exit
-ls
-exit
-ls
-ls c:\\dev
-c:\\dev\\RaylibComponents
-ls c:\\dev\\RaylibComponents
-clear
-exit
-clear
-ls
-help
-exit
-help
-exit
-asd
-help
-exit
-help
-exit
-ls
-dir
-dir c:\\dev
-clear
-exit
-cd 
-cd
-cat
-cd a
-cd 
-help
-clear
-exit
-hellp
-help
-ls ../dsa
-ls ..
-ls
-clear
-exit
-help
-as
-clear
 ls
 ls ..
 ls c:\\dev
@@ -97,5 +35,67 @@ help
 exit
 help
 exit
+help
+exit
+help
+echo yo
+echo wassup
+echo thank you
+clear
+exit
+help
+exit
+cat
+help
+exit
+help
+exit
+help
+exit
+help
+exit
+help
+clear
+exit
+help
+exit
+clear
+help
+exit
+help
+exit
+help
+clear
+exi
+exit
+help
+exit
+help
+exit
+help
+exit
+help
+clear
+exit
+help
+echo help
+exit
+help
+exit
+help
+cat
+cat dasd
+clear
+exho
+echo
+help
+echo hello
+echo hello world
+clear
+exit
+echo hello world
+echo wassup
+echo a asd asd asd as 
+clear
 help
 exit

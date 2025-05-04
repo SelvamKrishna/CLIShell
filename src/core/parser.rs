@@ -26,7 +26,7 @@ pub fn parse_cmd(cmd: String, dir: &mut PathBuf) -> CommandState {
 
         ["cd", path] => Execute::cd_cmd(path.to_string(), dir),
         ["cat", path] => Execute::cat_cmd(path.to_string()),
-        ["echo", msg] => Execute::echo_cmd(msg.to_string()),
+        ["echo", args @ ..] => Execute::echo_cmd(args.join(" ").to_string()),
 
         _ => CommandState::Invalid,
     }

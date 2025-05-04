@@ -5,6 +5,20 @@ use crossterm::{
     style::{Color, Print, ResetColor, SetForegroundColor},
 };
 
+macro_rules! log_msg {
+    ($color:expr, $label:expr, $msg:expr) => {
+        execute!(
+            io::stdout(),
+            SetForegroundColor($color),
+            Print($label),
+            SetForegroundColor(Color::White),
+            Print($msg),
+            Print("\n"),
+            ResetColor
+        )
+    };
+}
+
 pub struct Log;
 
 impl Log {
@@ -16,31 +30,27 @@ impl Log {
 
     #[allow(dead_code)]
     pub fn error_msg(msg: &str) -> io::Result<()> {
-        execute!(
-            io::stdout(),
-            SetForegroundColor(Color::Red),
-            Print("ERROR: "),
-            SetForegroundColor(Color::White),
-            Print(msg),
-            Print("\n"),
-            ResetColor
-        )?;
-
+        log_msg!(Color::Red, "ERROR: ", msg)?;
         Ok(())
     }
 
     #[allow(dead_code)]
     pub fn info_msg(msg: &str) -> io::Result<()> {
+        log_msg!(Color::Blue, "INFO: ", msg)?;
+        Ok(())
+    }
+
+    #[allow(dead_code)]
+    pub fn todo_msg(cmd: &str) -> io::Result<()> {
         execute!(
             io::stdout(),
-            SetForegroundColor(Color::Blue),
-            Print("INFO: "),
+            SetForegroundColor(Color::Yellow),
+            Print(cmd),
             SetForegroundColor(Color::White),
-            Print(msg),
+            Print("\t\t\twork in progress"),
             Print("\n"),
             ResetColor
         )?;
-
         Ok(())
     }
 
@@ -49,31 +59,34 @@ impl Log {
         execute!(
             io::stdout(),
             SetForegroundColor(Color::Yellow),
-            Print(format!("{:<16}", cmd)),
+            Print(format!("{:<24}", cmd)),
             SetForegroundColor(Color::White),
             Print(msg),
             Print("\n"),
             ResetColor
         )?;
-
         Ok(())
     }
 
     #[allow(dead_code)]
-    pub fn help_with_args_msg(cmd: &str, args: &str, msg: &str) -> io::Result<()> {
+    pub fn help_args_msg(cmd: &str, args: &str, msg: &str) -> io::Result<()> {
+        let cmd_args_len = cmd.len() + 1 + args.len();
+        let pad_len = 24usize.saturating_sub(cmd_args_len);
+        let padding = " ".repeat(pad_len);
+
         execute!(
             io::stdout(),
             SetForegroundColor(Color::Yellow),
-            Print(format!("{:<4}", cmd)),
-            // Print(cmd.to_string()),
+            Print(cmd),
+            Print(" "),
             SetForegroundColor(Color::Cyan),
-            Print(format!("{:<12}", args)),
+            Print(args),
+            Print(padding),
             SetForegroundColor(Color::White),
             Print(msg),
             Print("\n"),
             ResetColor
         )?;
-
         Ok(())
     }
 
@@ -92,14 +105,7 @@ impl Log {
 
     #[allow(dead_code)]
     pub fn plain_msg(msg: &str) -> io::Result<()> {
-        execute!(
-            io::stdout(),
-            SetForegroundColor(Color::White),
-            Print(msg),
-            Print("\n"),
-            ResetColor
-        )?;
-
+        Log::custom_msg(msg, Color::White)?;
         Ok(())
     }
 }

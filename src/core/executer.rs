@@ -13,14 +13,17 @@ pub struct Execute;
 impl Execute {
     pub fn help_cmd() -> CommandState {
         Log::line().unwrap();
-        Log::help_msg("help", "Show this help message").unwrap();
+        Log::help_msg("help", "show this help message").unwrap();
         Log::help_msg("exit", "exits the shell").unwrap();
         Log::help_msg("clear", "clears the screen").unwrap();
         Log::help_msg("ls", "list contents of current directory").unwrap();
-        Log::help_with_args_msg("ls", "path", "list contents of path directory").unwrap();
+        Log::help_args_msg("ls", "path", "list contents of path directory").unwrap();
+        Log::help_args_msg("cd", "path", "change working directory to path").unwrap();
+        Log::help_msg("cat", "todo!").unwrap();
+        Log::help_args_msg("echo", "text", "prints text to console").unwrap();
         Log::line().unwrap();
 
-        Log::info_msg("More commands yet unimplemented").unwrap();
+        Log::info_msg("more commands yet unimplemented").unwrap();
         CommandState::Handled
     }
 
@@ -78,6 +81,11 @@ impl Execute {
 
     #[allow(unused)]
     pub fn echo_cmd(msg: String) -> CommandState {
+        if let Err(e) = Log::plain_msg(&msg) {
+            Log::error_msg(&format!("echo failed: {}", e)).unwrap();
+            return CommandState::Invalid;
+        }
+
         CommandState::Handled
     }
 }
