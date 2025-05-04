@@ -1,101 +1,10 @@
 #V2
-ls
-ls ..
-ls c:\\dev
-ls c
-ls c:/
-clear
 exit
+clear
 help
 ls
-ls ../
+cat src
+cat Cargo.tom
+cat Cargo.toml
 clear
-exit
-help
-helplear
-clear
-exit
-hello
-help
-clear
-new
-help
-ls
-exit
-help
-exit
-help
-exit
-help
-clear
-exit
-help
-exit
-help
-exit
-help
-exit
-help
-exit
-help
-echo yo
-echo wassup
-echo thank you
-clear
-exit
-help
-exit
-cat
-help
-exit
-help
-exit
-help
-exit
-help
-exit
-help
-clear
-exit
-help
-exit
-clear
-help
-exit
-help
-exit
-help
-clear
-exi
-exit
-help
-exit
-help
-exit
-help
-exit
-help
-clear
-exit
-help
-echo help
-exit
-help
-exit
-help
-cat
-cat dasd
-clear
-exho
-echo
-help
-echo hello
-echo hello world
-clear
-exit
-echo hello world
-echo wassup
-echo a asd asd asd as 
-clear
-help
 exit

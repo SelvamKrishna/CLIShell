@@ -1,5 +1,10 @@
 use super::{log::Log, parser::CommandState};
-use std::{env, fs, io::stdout, path::PathBuf};
+use std::{
+    env,
+    fs::{self, read_to_string},
+    io::stdout,
+    path::PathBuf,
+};
 
 use crossterm::{
     cursor::MoveTo,
@@ -19,7 +24,7 @@ impl Execute {
         Log::help_msg("ls", "list contents of current directory").unwrap();
         Log::help_args_msg("ls", "path", "list contents of path directory").unwrap();
         Log::help_args_msg("cd", "path", "change working directory to path").unwrap();
-        Log::help_msg("cat", "todo!").unwrap();
+        Log::help_args_msg("cat", "path", "prints file contents to console").unwrap();
         Log::help_args_msg("echo", "text", "prints text to console").unwrap();
         Log::line().unwrap();
 
@@ -76,6 +81,16 @@ impl Execute {
 
     #[allow(unused)]
     pub fn cat_cmd(path: String) -> CommandState {
+        let content = match read_to_string(path) {
+            Ok(text) => text,
+            Err(_) => return CommandState::Invalid,
+        };
+
+        if let Err(e) = Log::plain_msg(&content) {
+            Log::error_msg(&format!("cat failed: {}", e)).unwrap();
+            return CommandState::Invalid;
+        }
+
         CommandState::Handled
     }
 
