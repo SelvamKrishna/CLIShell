@@ -1,0 +1,29 @@
+#V2
+exit
+clear
+help
+ls
+cat src
+cat Cargo.tom
+cat Cargo.toml
+clear
+exit
+ls
+exit
+ls
+exit
+help
+ls
+exit
+ls
+exit
+ls
+exit
+ls
+ls src
+ls care
+ls src/core
+cd src/core
+cat executer.rs
+clear
+exit

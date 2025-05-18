@@ -34,7 +34,7 @@ impl Execute {
 
     pub fn clear_cmd() -> CommandState {
         execute!(stdout(), Clear(ClearType::All), MoveTo(0, 0)).unwrap_or_else(|e| {
-            Log::error_msg(&format!("Failed to clear screen: {}", e)).unwrap();
+            Log::error_msg(&format!("failed to clear screen: {}", e)).unwrap();
         });
 
         CommandState::Handled
@@ -44,7 +44,7 @@ impl Execute {
         let entries = match fs::read_dir(path) {
             Ok(e) => e,
             Err(e) => {
-                Log::error_msg(&format!("Failed to read directory: {}", e)).unwrap();
+                Log::error_msg(&format!("failed to read directory: {}", e)).unwrap();
                 return CommandState::Handled;
             }
         };
@@ -54,7 +54,7 @@ impl Execute {
             let file_name = entry.file_name().to_string_lossy().into_owned();
 
             if path.is_dir() {
-                Log::custom_msg(&format!("{}/", file_name), Color::DarkMagenta).unwrap();
+                Log::custom_msg(&format!("{}/", file_name), Color::DarkCyan).unwrap();
             } else {
                 Log::custom_msg(&file_name.to_string(), Color::Cyan).unwrap();
             }

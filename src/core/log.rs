@@ -41,6 +41,25 @@ impl Log {
     }
 
     #[allow(dead_code)]
+    pub fn custom_msg(msg: &str, color: Color) -> io::Result<()> {
+        execute!(
+            io::stdout(),
+            SetForegroundColor(color),
+            Print(msg),
+            Print("\n"),
+            ResetColor
+        )?;
+
+        Ok(())
+    }
+
+    #[allow(dead_code)]
+    pub fn plain_msg(msg: &str) -> io::Result<()> {
+        Log::custom_msg(msg, Color::White)?;
+        Ok(())
+    }
+
+    #[allow(dead_code)]
     pub fn todo_msg(cmd: &str) -> io::Result<()> {
         execute!(
             io::stdout(),
@@ -51,6 +70,7 @@ impl Log {
             Print("\n"),
             ResetColor
         )?;
+
         Ok(())
     }
 
@@ -65,6 +85,7 @@ impl Log {
             Print("\n"),
             ResetColor
         )?;
+
         Ok(())
     }
 
@@ -87,25 +108,7 @@ impl Log {
             Print("\n"),
             ResetColor
         )?;
-        Ok(())
-    }
 
-    #[allow(dead_code)]
-    pub fn custom_msg(msg: &str, color: Color) -> io::Result<()> {
-        execute!(
-            io::stdout(),
-            SetForegroundColor(color),
-            Print(msg),
-            Print("\n"),
-            ResetColor
-        )?;
-
-        Ok(())
-    }
-
-    #[allow(dead_code)]
-    pub fn plain_msg(msg: &str) -> io::Result<()> {
-        Log::custom_msg(msg, Color::White)?;
         Ok(())
     }
 }
